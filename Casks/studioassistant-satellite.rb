@@ -37,8 +37,8 @@ cask "studioassistant-satellite" do
 
   # Like the .deb's removal: the service goes, the install root stays until it is asked for.
   uninstall launchctl: [
-              "com.studio-assistant.satellite",
               "com.jannis-lehnert.pluginhostsharp.broker",
+              "com.studio-assistant.satellite",
             ],
             delete:    [
               "/Library/LaunchAgents/com.jannis-lehnert.pluginhostsharp.broker.plist",
