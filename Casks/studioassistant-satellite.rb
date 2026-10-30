@@ -29,6 +29,14 @@ cask "studioassistant-satellite" do
   auto_updates true
   depends_on arch: :arm64
 
+  # sha256 :no_check checks nothing, and a walled host answers HTTP 200 with its login page, so make
+  # sure sudo is about to run the installer and not that page.
+  preflight do
+    next if (staged_path/"install.sh").read(2) == "#!"
+
+    raise CaskError, "#{url} did not answer with the installer; is the download host behind its wall?"
+  end
+
   installer script: {
     executable: "/usr/bin/env",
     args:       ["SATELLITE_CHANNEL=#{channel}", "/bin/bash", "#{staged_path}/install.sh"],
