@@ -17,11 +17,12 @@
 #   HOMEBREW_STUDIOASSISTANT_SATELLITE_CHANNEL=internal brew install <this cask>
 cask "studioassistant-satellite" do
   channel = ENV.fetch("HOMEBREW_STUDIOASSISTANT_SATELLITE_CHANNEL", "stable")
+  installer_url = "https://www.studio-assistant.com/download/satellite/studioassistant/#{channel}/install.sh"
 
   version :latest
   sha256 :no_check
 
-  url "https://www.studio-assistant.com/download/satellite/studioassistant/#{channel}/install.sh"
+  url installer_url
   name "Studio Assistant Satellite"
   desc "Local satellite daemon for Studio Assistant"
   homepage "https://www.studio-assistant.com/"
@@ -34,7 +35,7 @@ cask "studioassistant-satellite" do
   preflight do
     next if (staged_path/"install.sh").read(2) == "#!"
 
-    raise CaskError, "#{url} did not answer with the installer; is the download host behind its wall?"
+    raise CaskError, "#{installer_url} did not answer with the installer; is the download host behind its wall?"
   end
 
   installer script: {
